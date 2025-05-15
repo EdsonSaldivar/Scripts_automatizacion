@@ -72,13 +72,54 @@ COPIA LA SIGUIENTE CONFIGURACION EN TU ARCHIVO urc.cdmx.gob.mx.conf:
 a2dissite 000-default.conf
 a2ensite urc.cdmx.gob.mx.conf
 
-Editar en el siguiente archivo el parametro de "pm.max_children = 5" con los valores necesarios, como recomendación usar 10 unidades por cada GB de RAM disponible
+Editar el siguiente archivo con la configuración recomendada para 5,000 usuarios al mismo tiempo en moodle4.4 y con un servidor de 40GB de ram y 24 nucleos 
 
 sudo nano /etc/php/8.3/fpm/pool.d/www.conf
+
+pm = dynamic
+
+pm.max_children = 2000
+
+pm.start_servers = 1000
+
+pm.min_spare_servers = 500
+
+pm.max_spare_servers = 1500
+
+;pm.max_spawn_rate = 32
+
+pm.process_idle_timeout = 5s;
+
+pm.max_requests = 10000
+
+
+
+Editar el archivo /etc/apache2/mods-available/mpm_event.conf y copiar la siguiente configuración recomendada hasta para 5,000 usuarios al mismo tiempo en moodle 4.4 en un servidor con 24 nucleos y 40GB de ram
+
+sudo nano /etc/apache2/mods-available/mpm_event.conf
+
+ServerLimit		32
+StartServers            6
+MinSpareThreads         75
+MaxSpareThreads         250
+ThreadLimit             128
+ThreadsPerChild         64
+MaxRequestWorkers       2048
+MaxConnectionsPerChild  10000
+
+Edita el archivo /etc/sysctl.conf y añade al final la siguiente linea, esta hará que el servidor use swapp solo cuando la memoria este casi llena:
+
+vm.swappiness = 10
+
+Ejecuta los siguientes comandos para aplicar todos los cambios en los archivos editados
+
+sudo sysctl -p
 
 sudo systemctl restart php8.3-fpm
 
 systemctl restart apache2
 
-PRUEBA TUS DESARROLLOS
+Verifica el swapp con el siguiente comando debe devolver el mismo valor que indicaste en este caso fue 10:
+
+cat /proc/sys/vm/swappiness
 
