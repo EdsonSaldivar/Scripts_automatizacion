@@ -4,7 +4,7 @@ apt upgrade
 
 apt install apache2
 
-apt install php php-cli php-fpm php-mysql php-curl php-xml php-mbstring php-zip php-bcmath php-soap php-intl php-gd
+apt install php php-cli php-fpm php-mysql php-curl php-xml php-mbstring php-zip php-bcmath php-soap php-intl php-gd php-imagick imagemagick
 
 php -v
 
