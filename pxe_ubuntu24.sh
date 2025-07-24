@@ -44,9 +44,8 @@ sudo vim /var/lib/tftpboot/pxelinux.cfg/default
 
 #Colocamos la siguiente configuración:
 
-DEFAULT fedora42
-LABEL fedora42
+DEFAULT linux
+LABEL linux
+  MENU LABEL ^Instalar Fedora Server
   KERNEL fedora42/vmlinuz
-  APPEND initrd=fedora42/initrd.img
-inst.stage2=http://172.20.1.5/fedora42
-inst.ks=http://172.20.1.5/kickstart/kickstart.ks inst.text
+  APPEND initrd=fedora42/initrd.img inst.stage2=http://172.20.1.5/fedora/ inst.ks=http://172.20.1.5/kickstart/kickstart.ks inst.text
